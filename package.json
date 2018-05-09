@@ -1,6 +1,6 @@
 {
   "name": "txttools-titlecase",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Convert string content to title case with options.",
   "main": "titleCase.js",
   "scripts": {
