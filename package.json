@@ -1,0 +1,28 @@
+{
+  "name": "txttools-titlecase",
+  "version": "0.1.0",
+  "description": "Convert string content to title case with options.",
+  "main": "titleCase.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/augmentintelligence/txttools-titlecase.git"
+  },
+  "keywords": [
+    "toolkit",
+    "text",
+    "case",
+    "titlecase"
+  ],
+  "author": "Adam Raposo",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/augmentintelligence/txttools#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.1.1",
+    "rewire": "^4.0.1",
+    "sinon": "^5.0.7"
+  }
+}
