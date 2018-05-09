@@ -1,5 +1,5 @@
+'use strict';
 (function(){
-
   // https://jsperf.com/txttools-titlecase
   let options = {
       caps: [],
