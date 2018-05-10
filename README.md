@@ -1,4 +1,4 @@
-# titleCase - v0.1.1
+# titleCase - v0.1.2
 
 Convert string content to title case with options.
 

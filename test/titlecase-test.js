@@ -1,8 +1,15 @@
-'use strict';
-(function(){
+const tc = require('../titleCase');
 
-  // https://jsperf.com/txttools-titlecase2
-  let options = {
+let sentence = "'hello' my name is adam. this is written in (javascript). a for php.";
+let word = "'(hello)'";
+
+
+let all = new RegExp(/^([,.'"?!:;()]+)?\b(\w+)\b([,.'"?!:;()]+)?$/),
+   stop = new RegExp(/^([.?!]+)$/);
+
+let words = sentence.split(' ');
+
+let options = {
     caps: [],
     camel: {},
     lower: [
@@ -19,13 +26,13 @@
         c = new RegExp(/[,.'"?!:;()\[\]{}]/),
         s = new RegExp(/[.?!]/);
 
-  exports.titleCase = function(text) {
+  function titleCase (text) {
     let formatted = [],
       lastStop = true,
       words = (text.indexOf(' ') === -1) ? [text] : text.split(' ');
 
     for (let i = 0, n = words.length; i < n; i++) {
-      let word = c.test(words[i]) ? a.exec(words[i]) : ['','',words[i],''];
+      let word = c.test(words[i]) ? a.exec(words[i]) : ['', '', words[i], ''];
       word[1] = word[1] === undefined ? '' : word[1];
       word[2] = word[2].toLowerCase();
       word[3] = word[3] === undefined ? '' : word[3];
@@ -42,9 +49,9 @@
       lastStop = (word[3] !== '' ? s.test(word[3].charAt(word[3].length - 1)) : false);
     }
     return formatted.join(' ');
-  };
+  }
 
-  exports.setOpts = function (opts, params) {
+  function setOpts (opts, params) {
     if (typeof opts === 'string' && params !== undefined) {
       if (options.hasOwnProperty(opts)) {
         if (typeof params === 'string') params = [params];
@@ -72,6 +79,13 @@
         }
       }
     }
-  };
+  }
 
-}).call(this);
+setOpts('caps', 'iou');
+setOpts({ caps: ['php', 'world'], camel: 'JavaScript' });
+
+sentence = "'hello' world! my nAme is Adam, this is a sCrIpt written in javascript, not php. 'for' iou 'for' in.";
+console.log(titleCase(sentence));
+
+tc.setOpts({ camel: 'JavaScript', caps: 'php'});
+tc.titleCase(sentence); //?
