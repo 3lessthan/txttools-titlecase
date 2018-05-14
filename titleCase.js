@@ -1,7 +1,6 @@
 'use strict';
 (function(){
-
-  // https://jsperf.com/txttools-titlecase2
+  // https://jsperf.com/txttools-titlecase3
   let options = {
     caps: [],
     camel: {},
@@ -15,8 +14,8 @@
     ]
   };
 
-  const a = new RegExp(/([,.'"?!:;()\[\]{}]+)?(\w+)([,.'"?!:;()\[\]{}]+)?/),
-        c = new RegExp(/[,.'"?!:;()\[\]{}]/),
+  const a = new RegExp(/([,.'"?!:;()\[\]{}]+)?(\w+)((?:'[ns])?[,.'"?!:;()\[\]{}]+)?/),
+        c = new RegExp(/(?:'[sn])?[,.'"?!:;()\[\]{}]/),
         s = new RegExp(/[.?!]/);
 
   exports.titleCase = function(text) {
@@ -25,7 +24,7 @@
       words = (text.indexOf(' ') === -1) ? [text] : text.split(' ');
 
     for (let i = 0, n = words.length; i < n; i++) {
-      let word = c.test(words[i]) ? a.exec(words[i]) : ['','',words[i],''];
+      let word = c.test(words[i]) ? a.exec(words[i]) : ['', '', words[i], ''];
       word[1] = word[1] === undefined ? '' : word[1];
       word[2] = word[2].toLowerCase();
       word[3] = word[3] === undefined ? '' : word[3];
@@ -44,30 +43,38 @@
     return formatted.join(' ');
   };
 
-  exports.setOpts = function (opts, params) {
+  exports.setOptions = function (opts, params) {
     if (typeof opts === 'string' && params !== undefined) {
       if (options.hasOwnProperty(opts)) {
-        if (typeof params === 'string') params = [params];
-        for (let i = 0; i < params.length; i++) {
-          if (opts === 'camel') {
-            options.camel[params[i].toLowerCase()] = params[i];
-          } else {
-            options[opts].push(params[i].toLowerCase());
+        if (typeof params === 'string') {
+          if (opts === 'camel')
+            options.camel[params.toLowerCase()] = params;
+          else
+            options[opts].push(params.toLowerCase());
+        } else {
+          for (let i = 0; i < params.length; i++) {
+            if (opts === 'camel')
+              options.camel[params[i].toLowerCase()] = params[i];
+            else
+              options[opts].push(params[i].toLowerCase());
           }
         }
       }
     } else {
       for (let key in opts) {
-        if (!opts.hasOwnProperty(key)) continue;
+        if (!opts.hasOwnProperty(key) || !options.hasOwnProperty(key)) continue;
         let opt = opts[key];
-        if (options.hasOwnProperty(key)) {
-          if (typeof opt === 'string') opt = [opt];
+        if (typeof opt === 'string') {
+          if (key === 'camel')
+            options.camel[opt.toLowerCase()] = opt;
+          else
+            options[key].push(opt.toLowerCase());
+        } else {
           for (let i = 0; i < opt.length; i++) {
-            if (key === 'camel') {
+            if (key === 'camel')
               options.camel[opt[i].toLowerCase()] = opt[i];
-            } else {
+            else
               options[key].push(opt[i].toLowerCase());
-            }
           }
         }
       }

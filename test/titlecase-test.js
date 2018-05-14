@@ -87,5 +87,7 @@ setOpts({ caps: ['php', 'world'], camel: 'JavaScript' });
 sentence = "'hello' world! my nAme is Adam, this is a sCrIpt written in javascript, not php. 'for' iou 'for' in.";
 console.log(titleCase(sentence));
 
-tc.setOpts({ camel: 'JavaScript', caps: 'php'});
+
+tc.setOptions({ camel: 'JavaScript', caps: ['php', 'adam']});
+tc.setOptions('lower', 'world');
 tc.titleCase(sentence); //?
